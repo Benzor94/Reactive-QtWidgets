@@ -1,7 +1,8 @@
 from abc import ABC, ABCMeta, abstractmethod
 from collections.abc import Callable
+from typing import override
 
-from PySide6.QtCore import QObject
+from PySide6.QtCore import QObject, SignalInstance
 from shiboken6.Shiboken import Object
 
 type Supplier[T] = Callable[[],T]
@@ -23,3 +24,17 @@ class ReadableProperty[T](QObject, ABC, metaclass=QObjectABCMeta):
 
     @abstractmethod
     def unbind_all(self) -> None: ...
+
+class ReadWriteProperty[T](ReadableProperty[T]):
+
+    @ReadableProperty.value.setter
+    @abstractmethod
+    def value(self, value: T) -> None: ...
+
+    @abstractmethod
+    @override
+    def bind(self, callback: Consumer[T] | None, signal: SignalInstance | None = None) -> None: ...
+
+    @abstractmethod
+    @override
+    def unbind(self, callback: Consumer[T] | None, signal: SignalInstance | None = None) -> None: ...

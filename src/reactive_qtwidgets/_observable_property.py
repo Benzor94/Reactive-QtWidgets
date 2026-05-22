@@ -1,9 +1,11 @@
+from typing import override
+
 from PySide6.QtCore import QObject, Signal, SignalInstance, Slot
 
-from reactive_qtwidgets._types import Consumer
+from reactive_qtwidgets._types import Consumer, ReadWriteProperty
 
 
-class ObservableProperty[T](QObject):
+class ObservableProperty[T](ReadWriteProperty[T]):
     _value_changed = Signal(object)
 
     def __init__(self, initial_value: T, *, parent: QObject | None = None) -> None:
@@ -12,6 +14,7 @@ class ObservableProperty[T](QObject):
         self._bindings: set[tuple[Consumer[T] | None, SignalInstance | None]] = set()
 
     @property
+    @override
     def value(self) -> T:
         return self._value
 
@@ -21,6 +24,7 @@ class ObservableProperty[T](QObject):
             self._value = value
             self._notify_listeners()
 
+    @override
     def bind(self, callback: Consumer[T] | None, signal: SignalInstance | None = None) -> None:
         if (callback, signal) in self._bindings:
             return
@@ -31,6 +35,7 @@ class ObservableProperty[T](QObject):
             signal.connect(self._on_incoming_value)
         self._bindings.add((callback, signal))
 
+    @override
     def unbind(self, callback: Consumer[T] | None, signal: SignalInstance | None = None) -> None:
         if (callback, signal) not in self._bindings:
             return
@@ -40,6 +45,7 @@ class ObservableProperty[T](QObject):
             signal.disconnect(self._on_incoming_value)
         self._bindings.remove((callback, signal))
 
+    @override
     def unbind_all(self) -> None:
         for callback, signal in set(self._bindings):
             self.unbind(callback, signal)
