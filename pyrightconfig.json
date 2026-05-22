@@ -1,0 +1,35 @@
+{
+    "include": ["src", "tests"],
+    "exclude": [
+      "**/node_modules",
+      "**/__pycache__",
+      "src/experimental",
+      "src/typestubs",
+      "**/.*",
+      ".venv"
+    ],
+    "pythonVersion": "3.12",
+    "typeCheckingMode": "standard",
+    "strictListInference": true,
+    "strictDictionaryInference": true,
+    "strictSetInference": true,
+    "deprecateTypingAliases": true,
+    "reportPropertyTypeMismatch": "none",
+    "reportUntypedFunctionDecorator": "warning",
+    "reportUntypedClassDecorator": "warning",
+    "reportUntypedBaseClass": "warning",
+    "reportUntypedNamedTuple": "warning",
+    "reportPrivateUsage": "error",
+    "reportDeprecated": "warning",
+    "reportUninitializedInstanceVariable": "warning",
+    "reportUnnecessaryIsInstance": "warning",
+    "reportUnnecessaryCast": "warning",
+    "reportUnnecessaryComparison": "warning",
+    "reportUnnecessaryContains": "warning",
+    "reportImplicitOverride": "warning",
+    
+    "executionEnvironments": [
+      { "root": "src" },
+      { "root": "."}
+    ]
+}
