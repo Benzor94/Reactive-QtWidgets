@@ -1,10 +1,8 @@
 from PySide6.QtCore import QObject, Signal
-from pytest import mark
 
 from reactive_qtwidgets import ObservableProperty
 
 
-@mark.usefixtures('qapp')
 def test_observable_property_basic_functionality() -> None:
     p1 = ObservableProperty(2.3)
     p2 = ObservableProperty(p1.value)
@@ -16,7 +14,6 @@ def test_observable_property_basic_functionality() -> None:
     p2.value = 18.2
     assert p1.value == 18.2
 
-@mark.usefixtures('qapp')
 def test_observable_property_stability() -> None:
     
     class DummyObject(QObject):
@@ -45,7 +42,6 @@ def test_observable_property_stability() -> None:
 
     assert p.value == 10.0
 
-@mark.usefixtures('qapp')
 def test_observable_property_unbind() -> None:
     p = ObservableProperty('herp derp')
     q = ObservableProperty('hurr durr')
@@ -62,7 +58,6 @@ def test_observable_property_unbind() -> None:
     q.value = 'ni'
     assert p.value == 'my name is bob'
 
-@mark.usefixtures('qapp')
 def test_observable_property_multiple_binding() -> None:
     p = ObservableProperty('hello world')
     q1 = ObservableProperty('')
@@ -99,7 +94,6 @@ def test_observable_property_multiple_binding() -> None:
     assert q1.value == 'eggs'
     assert q2.value == 'eggs'
 
-@mark.usefixtures('qapp')
 def test_observable_property_unidirectional_binding_target_listens() -> None:
     p = ObservableProperty('hello world')
     q = ObservableProperty('')
@@ -116,7 +110,6 @@ def test_observable_property_unidirectional_binding_target_listens() -> None:
 
     assert p.value == 'spam'
 
-@mark.usefixtures('qapp')
 def test_observable_property_unidirectional_binding_property_listens() -> None:
     p = ObservableProperty('hello world')
     q = ObservableProperty('')
