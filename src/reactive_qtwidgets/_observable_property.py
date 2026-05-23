@@ -1,12 +1,11 @@
 from typing import override
 
-from PySide6.QtCore import QObject, Signal, SignalInstance, Slot
+from PySide6.QtCore import QObject, SignalInstance, Slot
 
 from reactive_qtwidgets._types import Consumer, ReadWriteProperty
 
 
 class ObservableProperty[T](ReadWriteProperty[T]):
-    _value_changed = Signal(object)
 
     def __init__(self, initial_value: T, *, parent: QObject | None = None) -> None:
         super().__init__(parent)
@@ -28,21 +27,21 @@ class ObservableProperty[T](ReadWriteProperty[T]):
     def bind(self, callback: Consumer[T] | None, signal: SignalInstance | None = None) -> None:
         if (callback, signal) in self._bindings:
             return
-        if callback is not None:
-            callback(self._value)
-        self._value_changed.connect(callback)
         if signal is not None:
             signal.connect(self._on_incoming_value)
+        if callback is not None:
+            self.value_changed.connect(callback)
+            callback(self._value)
         self._bindings.add((callback, signal))
 
     @override
     def unbind(self, callback: Consumer[T] | None, signal: SignalInstance | None = None) -> None:
         if (callback, signal) not in self._bindings:
             return
-        if callback is not None:
-            self._value_changed.disconnect(callback)
         if signal is not None:
             signal.disconnect(self._on_incoming_value)
+        if callback is not None:
+            self.value_changed.disconnect(callback)
         self._bindings.remove((callback, signal))
 
     @override
@@ -51,7 +50,7 @@ class ObservableProperty[T](ReadWriteProperty[T]):
             self.unbind(callback, signal)
 
     def _notify_listeners(self) -> None:
-        self._value_changed.emit(self._value)
+        self.value_changed.emit(self._value)
 
     @Slot(object)
     def _on_incoming_value(self, value: T) -> None:

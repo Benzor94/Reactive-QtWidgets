@@ -2,15 +2,16 @@ from abc import ABC, ABCMeta, abstractmethod
 from collections.abc import Callable
 from typing import override
 
-from PySide6.QtCore import QObject, SignalInstance
-from shiboken6.Shiboken import Object
+from PySide6.QtCore import QObject, Signal, SignalInstance
 
 type Supplier[T] = Callable[[],T]
 type Consumer[T] = Callable[[T], None]
 
-class QObjectABCMeta(Object, ABCMeta): ...
+class QObjectABCMeta(ABCMeta, type(QObject)): ...
 
 class ReadableProperty[T](QObject, ABC, metaclass=QObjectABCMeta):
+
+    value_changed = Signal(object)
 
     @property
     @abstractmethod

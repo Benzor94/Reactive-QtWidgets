@@ -20,3 +20,6 @@ dev = [
     "pyright[nodejs]>=1.1.409",
     "ruff>=0.15.14",
 ]
+test = [
+    "pytest>=9.0.3",
+]
