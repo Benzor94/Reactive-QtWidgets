@@ -9,7 +9,7 @@ class SignalTransformer[T](QObject):
     transformed_signal = Signal(object)
 
     @classmethod
-    def transform(cls, signal: SignalInstance) -> Callable[..., Self]:
+    def transform(cls, signal: SignalInstance) -> Callable[[Callable[..., T]], Self]:
         
         def transform_decorator(func: Callable[..., T]) -> Self:
             return cls(signal, func)

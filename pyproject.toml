@@ -24,5 +24,5 @@ test = [
     "pytest>=9.0.3",
 ]
 
-[tool.pytest.init_options]
+[tool.pytest.ini_options]
 addopts = "--ignore=tests/manual"
