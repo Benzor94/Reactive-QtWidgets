@@ -15,6 +15,10 @@ class DerivedProperty[T](ReadableProperty[T]):
         self._value = supplier()
         for prop in self._properties:
             prop.value_changed.connect(self._on_connected_property_value_change)
+    
+    @override
+    def __repr__(self) -> str:
+        return f'DerivedProperty({self._value})'
 
     @property
     @override

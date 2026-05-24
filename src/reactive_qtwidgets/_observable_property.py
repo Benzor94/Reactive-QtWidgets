@@ -11,6 +11,10 @@ class ObservableProperty[T](ReadWriteProperty[T]):
         super().__init__(parent)
         self._value = initial_value
         self._bindings: set[tuple[Consumer[T] | None, SignalInstance | None]] = set()
+    
+    @override
+    def __repr__(self) -> str:
+        return f'ObservableProperty({self._value})'
 
     @property
     @override
