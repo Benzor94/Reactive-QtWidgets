@@ -3,7 +3,7 @@ from typing import Self
 
 from PySide6.QtCore import QObject, SignalInstance, Slot
 
-from reactive_qtwidgets import ObservableProperty
+from reactive_qtwidgets._observable_property import ObservableProperty
 from reactive_qtwidgets._types import ReadableProperty
 
 
