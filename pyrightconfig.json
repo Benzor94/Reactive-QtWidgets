@@ -20,6 +20,7 @@
     "reportUntypedBaseClass": "warning",
     "reportUntypedNamedTuple": "warning",
     "reportPrivateUsage": "error",
+    "reportPrivateImportUsage": "error",
     "reportDeprecated": "warning",
     "reportUninitializedInstanceVariable": "warning",
     "reportUnnecessaryIsInstance": "warning",
